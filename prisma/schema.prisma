@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+  CREATOR
+}
+
+enum Status {
+  TODO
+  PROGRESS
+  TO_APPROVE
+  DONE
+}
+
+model User {
+  id        String          @id @default(cuid())
+  email     String          @unique
+  role      Role            @default(CLIENT)
+  createdAt DateTime        @default(now())
+  access    ProjectAccess[]
+}
+
+model Project {
+  id        String          @id @default(cuid())
+  name      String
+  createdAt DateTime        @default(now())
+  items     Item[]
+  access    ProjectAccess[]
+}
+
+model ProjectAccess {
+  id        String  @id @default(cuid())
+  userId    String
+  projectId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+}
+
+model Item {
+  id        String    @id @default(cuid())
+  projectId String
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  packName  String
+  name      String
+  link      String?
+  videoUrl  String?
+  executor  String?
+  status    Status    @default(TODO)
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  itemId      String
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  timecode    Float
+  authorEmail String
+  authorRole  Role
+  text        String
+  parentId    String?
+  tag         String?
+  createdAt   DateTime @default(now())
+}
+
+model LoginCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
