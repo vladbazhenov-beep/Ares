@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Reelroom",
+  title: "ARES",
   description: "Просмотр и апрув видео для клиентов и креаторов",
 };
 

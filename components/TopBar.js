@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Film, LogOut, Shield } from "lucide-react";
+import { LogOut, Shield } from "lucide-react";
 import { COLORS, ROLE_META } from "@/lib/constants";
 import { logoutAction } from "@/lib/actions/auth";
 
@@ -42,18 +42,15 @@ export default function TopBar({ session, active }) {
         >
           <div
             style={{
-              width: 28,
-              height: 28,
-              borderRadius: 7,
-              background: COLORS.violet,
-              display: "flex",
+              background: "#132A33",
+              borderRadius: 8,
+              padding: "6px 12px",
+              display: "inline-flex",
               alignItems: "center",
-              justifyContent: "center",
             }}
           >
-            <Film size={15} color="#fff" />
+            <span style={{ color: "#fff", fontWeight: 800, fontSize: 14, letterSpacing: 1.5 }}>ARES</span>
           </div>
-          <div style={{ fontWeight: 700, fontSize: 15, letterSpacing: -0.2 }}>Reelroom</div>
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -74,7 +71,7 @@ export default function TopBar({ session, active }) {
                 fontWeight: 600,
               }}
             >
-              <Shield size={14} /> Админ-панель
+              <Shield size={14} /> Admin panel
             </Link>
           )}
           <div style={{ fontSize: 13, color: COLORS.slate, display: "flex", alignItems: "center", gap: 8 }}>
@@ -84,7 +81,7 @@ export default function TopBar({ session, active }) {
           <form action={logoutAction}>
             <button
               type="submit"
-              title="Выйти"
+              title="Sign out"
               style={{ border: "none", background: "transparent", cursor: "pointer", color: COLORS.slate, display: "flex" }}
             >
               <LogOut size={16} />

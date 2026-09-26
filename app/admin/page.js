@@ -56,29 +56,29 @@ export default async function AdminPage({ searchParams }) {
     <>
       <TopBar session={session} active="admin" />
       <main style={{ maxWidth: 1180, margin: "0 auto", padding: "28px 24px 64px" }}>
-        <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 18, letterSpacing: -0.3 }}>Админ-панель</div>
+        <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 18, letterSpacing: -0.3 }}>Admin panel</div>
 
         <div style={{ marginBottom: 20 }}>
-          <a href="/admin?tab=projects" style={tabStyle(tab === "projects")}>Проекты</a>
-          <a href="/admin?tab=users" style={tabStyle(tab === "users")}>Доступы</a>
+          <a href="/admin?tab=projects" style={tabStyle(tab === "projects")}>Projects</a>
+          <a href="/admin?tab=users" style={tabStyle(tab === "users")}>Access</a>
         </div>
 
         {tab === "projects" && (
           <div>
             <form action={createProject} style={{ display: "flex", gap: 8, marginBottom: 18 }}>
-              <input name="name" required placeholder="Название нового проекта" style={{ ...inputStyle, flex: 1 }} />
-              <button type="submit" style={primaryBtn}>Создать</button>
+              <input name="name" required placeholder="New project name" style={{ ...inputStyle, flex: 1 }} />
+              <button type="submit" style={primaryBtn}>Create</button>
             </form>
             {projects.map((p) => (
               <div key={p.id} style={rowStyle}>
                 <div style={{ fontWeight: 600, fontSize: 14 }}>{p.name}</div>
                 <form action={deleteProject}>
                   <input type="hidden" name="projectId" value={p.id} />
-                  <button type="submit" style={dangerBtn}>Удалить</button>
+                  <button type="submit" style={dangerBtn}>Delete</button>
                 </form>
               </div>
             ))}
-            {projects.length === 0 && <div style={{ fontSize: 13, color: COLORS.slate }}>Проектов пока нет.</div>}
+            {projects.length === 0 && <div style={{ fontSize: 13, color: COLORS.slate }}>No projects yet.</div>}
           </div>
         )}
 
@@ -86,14 +86,14 @@ export default async function AdminPage({ searchParams }) {
           <div>
             <form action={addUser} style={{ background: "#fff", border: `1px solid ${COLORS.line}`, borderRadius: 12, padding: 16, marginBottom: 18 }}>
               <div style={{ display: "flex", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
-                <input name="email" type="email" required placeholder="email@клиента.com" style={{ ...inputStyle, flex: 1, minWidth: 200 }} />
+                <input name="email" type="email" required placeholder="client@company.com" style={{ ...inputStyle, flex: 1, minWidth: 200 }} />
                 <select name="role" style={inputStyle} defaultValue="CLIENT">
-                  <option value="CLIENT">Клиент</option>
-                  <option value="CREATOR">Креатор</option>
-                  <option value="ADMIN">Админ</option>
+                  <option value="CLIENT">Client</option>
+                  <option value="CREATOR">Creator</option>
+                  <option value="ADMIN">Admin</option>
                 </select>
               </div>
-              <div style={{ fontSize: 12, color: COLORS.slate, marginBottom: 6 }}>Доступ к проектам (не нужно для админа):</div>
+              <div style={{ fontSize: 12, color: COLORS.slate, marginBottom: 6 }}>Project access (not needed for admins):</div>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
                 {projects.map((p) => (
                   <label key={p.id} style={{ display: "inline-flex", alignItems: "center", fontSize: 12, fontWeight: 600, padding: "5px 10px", borderRadius: 7, border: `1px solid ${COLORS.line}`, background: "#fff", color: COLORS.slate, cursor: "pointer" }}>
@@ -101,9 +101,9 @@ export default async function AdminPage({ searchParams }) {
                     {p.name}
                   </label>
                 ))}
-                {projects.length === 0 && <span style={{ fontSize: 12, color: COLORS.slate }}>Сначала создайте проект во вкладке «Проекты».</span>}
+                {projects.length === 0 && <span style={{ fontSize: 12, color: COLORS.slate }}>Create a project first in the Projects tab.</span>}
               </div>
-              <button type="submit" style={primaryBtn}>Дать доступ</button>
+              <button type="submit" style={primaryBtn}>Grant access</button>
             </form>
 
             {users.map((u) => (
@@ -114,7 +114,7 @@ export default async function AdminPage({ searchParams }) {
                   </div>
                   <form action={deleteUser}>
                     <input type="hidden" name="email" value={u.email} />
-                    <button type="submit" style={dangerBtn}>Удалить</button>
+                    <button type="submit" style={dangerBtn}>Delete</button>
                   </form>
                 </div>
                 {u.role !== "ADMIN" && (
@@ -129,12 +129,12 @@ export default async function AdminPage({ searchParams }) {
                         </form>
                       );
                     })}
-                    {projects.length === 0 && <span style={{ fontSize: 12, color: COLORS.slate }}>Нет проектов.</span>}
+                    {projects.length === 0 && <span style={{ fontSize: 12, color: COLORS.slate }}>No projects.</span>}
                   </div>
                 )}
               </div>
             ))}
-            {users.length === 0 && <div style={{ fontSize: 13, color: COLORS.slate }}>Пользователей пока нет.</div>}
+            {users.length === 0 && <div style={{ fontSize: 13, color: COLORS.slate }}>No users yet.</div>}
           </div>
         )}
       </main>

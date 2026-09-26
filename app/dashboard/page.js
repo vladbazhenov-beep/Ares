@@ -22,18 +22,18 @@ export default async function DashboardPage() {
     <>
       <TopBar session={session} active="dashboard" />
       <main style={{ maxWidth: 1180, margin: "0 auto", padding: "28px 24px 64px" }}>
-        <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 4, letterSpacing: -0.3 }}>Проекты</div>
+        <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 4, letterSpacing: -0.3 }}>Projects</div>
         <div style={{ fontSize: 14, color: COLORS.slate, marginBottom: 24 }}>
-          {session.role === "ADMIN" ? "Все проекты студии." : "Проекты, к которым у вас есть доступ."}
+          {session.role === "ADMIN" ? "All studio projects." : "Projects you have access to."}
         </div>
 
         {projects.length === 0 && (
           <div style={{ border: `1px dashed ${COLORS.line}`, borderRadius: 14, padding: "36px 24px", textAlign: "center", marginBottom: 20 }}>
             <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6 }}>
-              {session.role === "ADMIN" ? "Пока нет проектов" : "Нет доступных проектов"}
+              {session.role === "ADMIN" ? "No projects yet" : "No projects available"}
             </div>
             <div style={{ fontSize: 13, color: COLORS.slate }}>
-              {session.role === "ADMIN" ? "Создайте первый проект в админ-панели." : "Обратитесь к администратору, чтобы получить доступ."}
+              {session.role === "ADMIN" ? "Create your first project in the admin panel." : "Contact your admin to get access."}
             </div>
           </div>
         )}
@@ -57,7 +57,7 @@ export default async function DashboardPage() {
                         {v} {STATUS_META[k].label.toLowerCase()}
                       </span>
                     ))}
-                  {p.items.length === 0 && <span style={{ fontSize: 12, color: COLORS.slate }}>Пусто</span>}
+                  {p.items.length === 0 && <span style={{ fontSize: 12, color: COLORS.slate }}>Empty</span>}
                 </div>
               </Link>
             );

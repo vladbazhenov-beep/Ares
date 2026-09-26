@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { COLORS, STATUS_META } from "@/lib/constants";
 import TopBar from "@/components/TopBar";
+import DownloadAllButton from "@/components/DownloadAllButton";
+import { Download } from "lucide-react";
 import { addItem } from "@/lib/actions/projects";
 
 const inputStyle = { padding: "9px 11px", borderRadius: 7, border: `1px solid ${COLORS.line}`, fontSize: 13.5, outline: "none" };
@@ -26,17 +28,21 @@ export default async function ProjectPage({ params }) {
   }
 
   const items = await prisma.item.findMany({ where: { projectId: project.id }, orderBy: { createdAt: "asc" } });
-  const cols = ["Статус", ...(isAdmin ? ["Исполнитель"] : []), "Pack name", "Name", "Link"];
+  const cols = ["Status", ...(isAdmin ? ["Assignee"] : []), "Pack name", "Name", "Download"];
+  const downloadLinks = items.filter((i) => i.link).map((i) => ({ url: i.link, name: i.name }));
 
   return (
     <>
       <TopBar session={session} />
       <main style={{ maxWidth: 1180, margin: "0 auto", padding: "28px 24px 64px" }}>
         <Link href="/dashboard" style={{ fontSize: 13, color: COLORS.slate, textDecoration: "none" }}>
-          ← Все проекты
+          ← All projects
         </Link>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "10px 0 20px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "10px 0 20px", flexWrap: "wrap", gap: 10 }}>
           <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: -0.3 }}>{project.name}</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <DownloadAllButton links={downloadLinks} />
+          </div>
         </div>
 
         {isAdmin && (
@@ -47,20 +53,20 @@ export default async function ProjectPage({ params }) {
             <input type="hidden" name="projectId" value={project.id} />
             <input name="packName" placeholder="Pack name" style={inputStyle} />
             <input name="name" placeholder="Name" required style={inputStyle} />
-            <input name="link" placeholder="Link (ТЗ)" style={inputStyle} />
-            <input name="videoUrl" placeholder="Video URL (mp4, необязательно)" style={inputStyle} />
-            <input name="executor" placeholder="Исполнитель" style={inputStyle} />
+            <input name="videoUrl" placeholder="Video URL (mp4, YouTube or Google Drive link)" style={inputStyle} />
+            <input name="link" placeholder="Download link for client (optional, can add later)" style={inputStyle} />
+            <input name="executor" placeholder="Assignee" style={inputStyle} />
             <button type="submit" style={{ gridColumn: "1 / -1", ...primaryBtn }}>
-              Добавить ролик
+              Add video
             </button>
           </form>
         )}
 
         {items.length === 0 ? (
           <div style={{ border: `1px dashed ${COLORS.line}`, borderRadius: 14, padding: "36px 24px", textAlign: "center" }}>
-            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6 }}>В проекте пока нет роликов</div>
+            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6 }}>No videos in this project yet</div>
             <div style={{ fontSize: 13, color: COLORS.slate }}>
-              {isAdmin ? "Добавьте первый ролик формой выше." : "Пока нечего смотреть — загляните позже."}
+              {isAdmin ? "Add the first video using the form above." : "Nothing to watch yet — check back later."}
             </div>
           </div>
         ) : (
@@ -107,8 +113,8 @@ export default async function ProjectPage({ params }) {
                     </td>
                     <td style={{ padding: "12px 14px" }}>
                       {it.link ? (
-                        <a href={it.link} target="_blank" rel="noreferrer" style={{ color: COLORS.violet, fontSize: 12.5 }}>
-                          Открыть
+                        <a href={it.link} target="_blank" rel="noreferrer" style={{ color: COLORS.violet, fontSize: 12.5, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                          Download <Download size={11} />
                         </a>
                       ) : (
                         <span style={{ color: COLORS.slate }}>—</span>
