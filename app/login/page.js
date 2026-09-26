@@ -1,5 +1,6 @@
 import { requestCode, verifyCode } from "@/lib/actions/auth";
 import { COLORS } from "@/lib/constants";
+import Logo from "@/components/Logo";
 
 const inputStyle = {
   width: "100%",
@@ -34,10 +35,8 @@ export default async function LoginPage({ searchParams }) {
   return (
     <div style={{ minHeight: "100vh", background: COLORS.ink, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
       <div style={{ width: 400, background: COLORS.paper, borderRadius: 16, padding: "36px 32px", boxSizing: "border-box" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
-          <div style={{ background: "#132A33", borderRadius: 8, padding: "9px 16px", display: "inline-flex", alignItems: "center" }}>
-            <span style={{ color: "#fff", fontWeight: 800, fontSize: 19, letterSpacing: 1.5 }}>ARES</span>
-          </div>
+        <div style={{ marginBottom: 22 }}>
+          <Logo size="lg" />
         </div>
 
         {step === "email" && (

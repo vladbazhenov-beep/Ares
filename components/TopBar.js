@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LogOut, Shield } from "lucide-react";
 import { COLORS, ROLE_META } from "@/lib/constants";
 import { logoutAction } from "@/lib/actions/auth";
+import Logo from "@/components/Logo";
 
 function RoleBadge({ role }) {
   const meta = ROLE_META[role] || { label: role, fg: COLORS.slate, bg: COLORS.slateBg };
@@ -38,19 +39,9 @@ export default function TopBar({ session, active }) {
       >
         <Link
           href="/dashboard"
-          style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", color: COLORS.ink }}
+          style={{ display: "flex", alignItems: "center", textDecoration: "none", color: COLORS.ink }}
         >
-          <div
-            style={{
-              background: "#132A33",
-              borderRadius: 8,
-              padding: "6px 12px",
-              display: "inline-flex",
-              alignItems: "center",
-            }}
-          >
-            <span style={{ color: "#fff", fontWeight: 800, fontSize: 14, letterSpacing: 1.5 }}>ARES</span>
-          </div>
+          <Logo size="md" />
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
